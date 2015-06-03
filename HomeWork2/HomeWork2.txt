@@ -1,0 +1,19 @@
+1) Написать запрос который выведет всех пользователей в возрасте от 20 до 50 с количеством книг более 10
+
+SELECT * FROM users WHERE age BETWEEN 20 AND 50 AND (SELECT COUNT(*) FROM users_books WHERE user_id = users.id) > 10
+
+2) Написать запрос который выведет пользователей в имени которых присутствует число 3
+
+SELECT * FROM users WHERE first_name RLIKE '3'
+
+3) Написать запрос который выведет список пользователей у которых есть книга с именем "Book #45"
+
+SELECT users.id, users.first_name, users.last_name, users.age FROM users INNER JOIN users_books ON users.id = users_books.user_id WHERE users_books.book_id IN (SELECT id FROM books WHERE title = 'Book #45')
+
+4) Написать запрос который добавит поле isbestseller (bool) в таблицу books
+
+ALTER TABLE books ADD isbestseller bool
+
+5) Написать запрос который выставит isbestseller = 1 для книг, которые были взяты пользователями более 10 раз
+
+UPDATE books SET isbestseller = 1 WHERE (SELECT COUNT(*) FROM users_books WHERE book_id = books.id) > 10
